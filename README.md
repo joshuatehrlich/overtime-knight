@@ -1,2 +1,2 @@
 # overtime-knight
-Productivity Game Jam
+short project about man with job
