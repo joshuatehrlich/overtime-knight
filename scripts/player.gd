@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export_category("Movement Consts")
 @export var RUN_SPEED: float = 180.0
 @export var RUN_ACCEL: float = 2000.0
-@export var RUN_DECEL: float = 800.0
+@export var RUN_DECEL: float = 2000.0
 @export var RUN_ACCEL_AIR_FACTOR: float = 0.65
 
 @export var JUMP_SPEED: float = 350.0
@@ -37,9 +37,11 @@ func handle_movement_run(delta: float) -> void:
 	
 	var norm_vel := velocity.x / RUN_SPEED
 	var norm_target_vel := direction
-	var is_accelerating := norm_vel * norm_target_vel >= 0
-	var accel = RUN_ACCEL if is_accelerating else RUN_DECEL
+	var is_decelerating: bool = (norm_vel * norm_target_vel <= 0) && (abs(norm_vel) > abs(norm_target_vel))
+	var accel = RUN_DECEL if is_decelerating else RUN_ACCEL
 	var accel_coeff = 1 if is_on_floor() else RUN_ACCEL_AIR_FACTOR
+	
+	print(is_decelerating)
 	
 	velocity.x = move_toward(velocity.x, direction * RUN_SPEED, accel * accel_coeff * delta)
 
