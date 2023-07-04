@@ -7,6 +7,7 @@ const JUMP_VELOCITY = -350.0
 @onready var sprite_2d : Sprite2D = $Sprite2D
 @onready var jump_up_timer = $JumpUpTimer
 @onready var jump_float_timer = $JumpFloatTimer
+@onready var coyote_timer = $CoyoteTimer
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -16,6 +17,8 @@ var jump_height = 75
 var jump_up_time =  0.3 #jump_up_timer.wait_time
 var jump_fall_time = 0.2
 
+var jump_ct = 0
+
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_up_time) * -1.0
 @onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_up_time * jump_up_time)) * -1.0
 @onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_fall_time * jump_fall_time)) * -1.0
@@ -24,9 +27,7 @@ func _physics_process(delta):
 	handle_movement(delta)
 	handle_animation()
 
-func handle_movement(delta):
-	print(jump_float_timer.is_stopped())
-	
+func handle_movement(delta):	
 	# Apply gravity
 	if velocity.y < 0.0:
 		velocity.y += jump_gravity * delta
@@ -34,7 +35,9 @@ func handle_movement(delta):
 		velocity.y += fall_gravity * delta
 
 	# Handle Jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and (is_on_floor() or not coyote_timer.is_stopped()):
+		jump_ct += 1
+		print(jump_ct)
 		velocity.y = jump_velocity
 		jump_up_timer.start()
 
@@ -46,7 +49,13 @@ func handle_movement(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
+	var was_on_floor = is_on_floor()
+
 	move_and_slide()
+	
+	# if the player leaves the ground in this instance not by jumping
+	if was_on_floor and not is_on_floor() and not Input.is_action_just_pressed("jump"):
+		coyote_timer.start()
 
 func handle_animation():
 	# Determine input direction
