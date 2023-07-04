@@ -5,13 +5,15 @@ const JUMP_VELOCITY = -350.0
 
 @onready var animation_tree : AnimationTree = $AnimationTree
 @onready var sprite_2d : Sprite2D = $Sprite2D
+@onready var jump_up_timer = $JumpUpTimer
+@onready var jump_float_timer = $JumpFloatTimer
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Jump implmentation courtesy of: https://www.youtube.com/watch?v=fE8f5-ZHD_k
 var jump_height = 75
-var jump_up_time = 0.3
+var jump_up_time =  0.3 #jump_up_timer.wait_time
 var jump_fall_time = 0.2
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_up_time) * -1.0
@@ -23,14 +25,18 @@ func _physics_process(delta):
 	handle_animation()
 
 func handle_movement(delta):
+	print(jump_float_timer.is_stopped())
+	
+	# Apply gravity
 	if velocity.y < 0.0:
 		velocity.y += jump_gravity * delta
-	else:
+	elif jump_float_timer.is_stopped():
 		velocity.y += fall_gravity * delta
 
 	# Handle Jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
+		jump_up_timer.start()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -66,3 +72,7 @@ func handle_animation():
 	else:
 		animation_tree["parameters/conditions/idle"] = false
 		animation_tree["parameters/conditions/is_moving"] = true
+
+
+func jump_up_timer_timeout():
+	jump_float_timer.start()

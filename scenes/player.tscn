@@ -145,6 +145,7 @@ script = ExtResource("1_o2u3n")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_q0pug")
 hframes = 10
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -164,3 +165,13 @@ parameters/conditions/airborne = false
 parameters/conditions/idle = false
 parameters/conditions/is_moving = false
 parameters/airborne/blend_position = 1.0
+
+[node name="JumpFloatTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpUpTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="timeout" from="JumpUpTimer" to="." method="jump_up_timer_timeout"]
