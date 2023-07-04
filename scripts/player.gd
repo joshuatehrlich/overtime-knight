@@ -11,8 +11,8 @@ const JUMP_VELOCITY = -350.0
 
 # Jump implmentation courtesy of: https://www.youtube.com/watch?v=fE8f5-ZHD_k
 var jump_height = 75
-var jump_up_time =  0.3 #jump_up_timer.wait_time
-var jump_fall_time = 0.2
+var jump_up_time =  0.5 #jump_up_timer.wait_time
+var jump_fall_time = 0.35
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_up_time) * -1.0
 @onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_up_time * jump_up_time)) * -1.0
