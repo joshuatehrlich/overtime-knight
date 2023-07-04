@@ -60,6 +60,7 @@ node_connections = [&"output", 0, &"Animation"]
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_q0pug")
 hframes = 10
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
