@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
-const RUN_SPEED: float = 180.0
-const RUN_ACCEL: float = 2000.0
-const RUN_DECEL: float = 800.0
-const RUN_ACCEL_AIR_FACTOR: float = 0.65
+@export_category("Movement Consts")
+@export var RUN_SPEED: float = 180.0
+@export var RUN_ACCEL: float = 2000.0
+@export var RUN_DECEL: float = 800.0
+@export var RUN_ACCEL_AIR_FACTOR: float = 0.65
 
-const JUMP_SPEED: float = 350.0
+@export var JUMP_SPEED: float = 350.0
 
-const COYOTE_TIME_SECS: float = 0.1
+@export var COYOTE_TIME_SECS: float = 0.1
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
