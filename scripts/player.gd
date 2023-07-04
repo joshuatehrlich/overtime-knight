@@ -9,15 +9,10 @@ const JUMP_VELOCITY = -350.0
 @onready var jump_float_timer = $JumpFloatTimer
 @onready var coyote_timer = $CoyoteTimer
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 # Jump implmentation courtesy of: https://www.youtube.com/watch?v=fE8f5-ZHD_k
 var jump_height = 75
 var jump_up_time =  0.3 #jump_up_timer.wait_time
 var jump_fall_time = 0.2
-
-var jump_ct = 0
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_up_time) * -1.0
 @onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_up_time * jump_up_time)) * -1.0
@@ -36,8 +31,6 @@ func handle_movement(delta):
 
 	# Handle Jump.
 	if Input.is_action_just_pressed("jump") and (is_on_floor() or not coyote_timer.is_stopped()):
-		jump_ct += 1
-		print(jump_ct)
 		velocity.y = jump_velocity
 		jump_up_timer.start()
 
