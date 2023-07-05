@@ -1,12 +1,13 @@
 extends CharacterBody2D
 
-@export_category("Movement Consts")
-@export var RUN_SPEED: float = 180.0
-@export var RUN_ACCEL: float = 2000.0
-@export var RUN_DECEL: float = 2000.0
+@export_category("Movement Parameters")
+@export var RUN_SPEED: float = 200.0
+@export var RUN_ACCEL: float = 1000.0
+@export var RUN_DECEL: float = 1000.0
 @export var RUN_ACCEL_AIR_FACTOR: float = 0.65
 
-@export var JUMP_SPEED: float = 350.0
+@export var JUMP_SPEED: float = 150.0
+@export var JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
 
 @export var COYOTE_TIME_SECS: float = 0.1
 
@@ -15,6 +16,7 @@ extends CharacterBody2D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity_coeff: float = 1.0
 
 
 func _physics_process(delta: float) -> void:
@@ -30,7 +32,7 @@ func handle_movement(delta: float) -> void:
 
 func handle_movement_gravity(delta: float) -> void:
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		velocity.y += gravity * gravity_coeff * delta
 
 func handle_movement_run(delta: float) -> void:
 	var direction := Input.get_action_strength("right") - Input.get_action_strength("left")
@@ -40,8 +42,6 @@ func handle_movement_run(delta: float) -> void:
 	var is_decelerating: bool = (norm_vel * norm_target_vel <= 0) && (abs(norm_vel) > abs(norm_target_vel))
 	var accel = RUN_DECEL if is_decelerating else RUN_ACCEL
 	var accel_coeff = 1 if is_on_floor() else RUN_ACCEL_AIR_FACTOR
-	
-	print(is_decelerating)
 	
 	velocity.x = move_toward(velocity.x, direction * RUN_SPEED, accel * accel_coeff * delta)
 
@@ -60,7 +60,10 @@ func handle_movement_jump(delta: float) -> void:
 		
 	if (is_on_floor() || last_grounded <= COYOTE_TIME_SECS) && last_jump_input <= COYOTE_TIME_SECS:
 		velocity.y = -JUMP_SPEED
-			
+	elif velocity.y < 0 && Input.is_action_pressed("jump"):
+		gravity_coeff = JUMP_HOLD_GRAVITY_FACTOR
+	else:
+		gravity_coeff = 1.0
 
 func handle_animation():
 	# Determine input direction
