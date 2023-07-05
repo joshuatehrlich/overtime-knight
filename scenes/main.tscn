@@ -463,7 +463,7 @@ RUN_SPEED = 180.0
 RUN_ACCEL = 2000.0
 RUN_DECEL = 2000.0
 RUN_ACCEL_AIR_FACTOR = 0.75
-JUMP_SPEED = 300.0
+JUMP_SPEED = 325.0
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -5
