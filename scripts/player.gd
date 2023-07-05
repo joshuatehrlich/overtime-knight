@@ -76,6 +76,7 @@ func handle_animation():
 	
 	# Jumping Case
 	if not is_on_floor():
+		animation_tree["parameters/conditions/grounded"] = false
 		animation_tree["parameters/conditions/airborne"] = true
 		animation_tree["parameters/airborne/blend_position"] = -sign(velocity.y)
 		animation_tree["parameters/conditions/is_moving"] = false
@@ -83,6 +84,7 @@ func handle_animation():
 		return
 	
 	# Grounded Case
+	animation_tree["parameters/conditions/grounded"] = true
 	animation_tree["parameters/conditions/airborne"] = false
 	if direction == 0:
 		animation_tree["parameters/conditions/idle"] = true
