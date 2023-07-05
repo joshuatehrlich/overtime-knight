@@ -8,6 +8,7 @@ extends CharacterBody2D
 
 @export var JUMP_SPEED: float = 200
 @export var JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
+@export var JUMP_HOLD_VELOCITY_THRESHOLD: float = 100.0
 @export var TERMINAL_FALL_SPEED: float = 500
 
 @export var COYOTE_TIME_SECS: float = 0.1
@@ -60,7 +61,7 @@ func handle_movement_jump(delta: float) -> void:
 		
 	if (is_on_floor() || last_grounded <= COYOTE_TIME_SECS) && last_jump_input <= COYOTE_TIME_SECS:
 		velocity.y = -JUMP_SPEED
-	elif abs(velocity.y) < 200.0 && Input.is_action_pressed("jump"):
+	elif abs(velocity.y) < JUMP_HOLD_VELOCITY_THRESHOLD && Input.is_action_pressed("jump"):
 		gravity_coeff = JUMP_HOLD_GRAVITY_FACTOR
 	else:
 		gravity_coeff = 1.0
