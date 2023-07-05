@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var RUN_DECEL: float = 1000.0
 @export var RUN_ACCEL_AIR_FACTOR: float = 0.65
 
-@export var JUMP_SPEED: float = 150.0
+@export var JUMP_SPEED: float = 200
 @export var JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
 
 @export var COYOTE_TIME_SECS: float = 0.1
@@ -15,7 +15,7 @@ extends CharacterBody2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")*1.5
 var gravity_coeff: float = 1.0
 
 
