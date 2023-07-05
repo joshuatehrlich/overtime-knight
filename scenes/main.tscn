@@ -471,11 +471,11 @@ sources/0 = SubResource("TileSetAtlasSource_ovacp")
 
 [node name="player" parent="." instance=ExtResource("1_gh0mp")]
 position = Vector2(-298, 48)
-RUN_SPEED = 220.0
+RUN_SPEED = 180.0
 RUN_ACCEL = 2000.0
 RUN_DECEL = 2000.0
 RUN_ACCEL_AIR_FACTOR = 0.75
-JUMP_SPEED = 325.0
+JUMP_SPEED = 300.0
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2(4, -71)

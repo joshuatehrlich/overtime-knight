@@ -16,7 +16,7 @@ extends CharacterBody2D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") * 1.5
 var gravity_coeff: float = 1.0
 
 
