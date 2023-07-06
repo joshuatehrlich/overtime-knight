@@ -131,10 +131,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [10, 9]
+"values": [10, 17]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_poieu"]
@@ -241,7 +241,7 @@ JUMP_SPEED = 220.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_q0pug")
-hframes = 17
+hframes = 18
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
