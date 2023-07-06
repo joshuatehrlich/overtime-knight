@@ -68,7 +68,7 @@ func handle_movement_jump(delta: float) -> void:
 
 func handle_animation():
 	# Determine input direction
-	var direction := Input.get_action_strength("right") - Input.get_action_strength("left")
+	var direction = Input.get_action_strength("right") - Input.get_action_strength("left")
 	
 	# Scale character horizontally to make them face the direction of input at all times
 	if direction != 0:
@@ -78,12 +78,17 @@ func handle_animation():
 	if not is_on_floor():
 		animation_tree["parameters/conditions/grounded"] = false
 		animation_tree["parameters/conditions/airborne"] = true
-		animation_tree["parameters/airborne/blend_position"] = -sign(velocity.y)
 		animation_tree["parameters/conditions/is_moving"] = false
 		animation_tree["parameters/conditions/idle"] = false
+		animation_tree["parameters/land/blend_position"] = ((abs(direction)-.5)*2)
+		animation_tree["parameters/airborne/blend_position"] = Vector2((((abs(velocity.x)/RUN_SPEED)-.5)*2), sign(velocity.y))
+		animation_tree["parameters/old airborne/blend_position"] = -sign(velocity.y)
 		return
 	
+	print((((abs(velocity.x)/RUN_SPEED)-.5)*2))
+	
 	# Grounded Case
+	animation_tree["parameters/grounded/blend_position"] = (((abs(velocity.x)/RUN_SPEED)-.5)*2)
 	animation_tree["parameters/conditions/grounded"] = true
 	animation_tree["parameters/conditions/airborne"] = false
 	if direction == 0:
