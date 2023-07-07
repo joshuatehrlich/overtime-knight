@@ -1,17 +1,17 @@
 extends CharacterBody2D
 
-@export_category("Movement Parameters")
-@export var RUN_SPEED: float = 200.0
-@export var RUN_ACCEL: float = 1000.0
-@export var RUN_DECEL: float = 1000.0
-@export var RUN_ACCEL_AIR_FACTOR: float = 0.65
+const RUN_SPEED: float = 180.0
+const RUN_ACCEL: float = 2000.0
+const RUN_DECEL: float = 2000.0
+const RUN_ACCEL_AIR_FACTOR: float = 0.75
 
-@export var JUMP_SPEED: float = 200
-@export var JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
-@export var JUMP_HOLD_VELOCITY_THRESHOLD: float = 100.0
-@export var TERMINAL_FALL_SPEED: float = 500
+const JUMP_SPEED: float = 450
+const JUMP_RELEASE_DROP_MULTIPLIER: float = 0.8
+const JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
+const JUMP_HOLD_VELOCITY_THRESHOLD: float = 100.0
+const TERMINAL_FALL_SPEED: float = 500
 
-@export var COYOTE_TIME_SECS: float = 0.1
+const COYOTE_TIME_SECS: float = 0.1
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -49,6 +49,8 @@ func handle_movement_run(delta: float) -> void:
 var last_jump_input: float = INF
 var last_grounded: float = INF
 
+var is_jumping: bool
+
 func handle_movement_jump(delta: float) -> void:
 	last_jump_input += delta
 	last_grounded += delta
@@ -58,13 +60,20 @@ func handle_movement_jump(delta: float) -> void:
 	
 	if is_on_floor():
 		last_grounded = 0.0
+		is_jumping = false
 		
-	if (is_on_floor() || last_grounded <= COYOTE_TIME_SECS) && last_jump_input <= COYOTE_TIME_SECS:
+	if (is_on_floor() or last_grounded <= COYOTE_TIME_SECS) and last_jump_input <= COYOTE_TIME_SECS and not is_jumping:
 		velocity.y = -JUMP_SPEED
+		is_jumping = true
 	elif abs(velocity.y) < JUMP_HOLD_VELOCITY_THRESHOLD && Input.is_action_pressed("jump"):
 		gravity_coeff = JUMP_HOLD_GRAVITY_FACTOR
 	else:
 		gravity_coeff = 1.0
+		
+	if velocity.y < 0 and not Input.is_action_pressed("jump"):
+		velocity.y *= JUMP_RELEASE_DROP_MULTIPLIER
+		
+	print(velocity.y)
 
 func handle_animation():
 	# Determine input direction
