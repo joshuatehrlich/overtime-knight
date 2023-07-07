@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-const RUN_SPEED: float = 200.0
-const RUN_ACCEL: float = 1000.0
-const RUN_DECEL: float = 1000.0
-const RUN_ACCEL_AIR_FACTOR: float = 0.65
+const RUN_SPEED: float = 180.0
+const RUN_ACCEL: float = 2000.0
+const RUN_DECEL: float = 2000.0
+const RUN_ACCEL_AIR_FACTOR: float = 0.75
 
 const JUMP_SPEED: float = 450
 const JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
