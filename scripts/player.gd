@@ -6,6 +6,7 @@ const RUN_DECEL: float = 2000.0
 const RUN_ACCEL_AIR_FACTOR: float = 0.75
 
 const JUMP_SPEED: float = 450
+const JUMP_RELEASE_DROP_MULTIPLIER: float = 0.8
 const JUMP_HOLD_GRAVITY_FACTOR: float = 0.5
 const JUMP_HOLD_VELOCITY_THRESHOLD: float = 100.0
 const TERMINAL_FALL_SPEED: float = 500
@@ -68,6 +69,9 @@ func handle_movement_jump(delta: float) -> void:
 		gravity_coeff = JUMP_HOLD_GRAVITY_FACTOR
 	else:
 		gravity_coeff = 1.0
+		
+	if velocity.y < 0 and not Input.is_action_pressed("jump"):
+		velocity.y *= JUMP_RELEASE_DROP_MULTIPLIER
 		
 	print(velocity.y)
 
