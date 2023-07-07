@@ -489,8 +489,8 @@ zoom = Vector2(2.793, 2.793)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 drag_vertical_enabled = true
-drag_top_margin = 1.0
-drag_bottom_margin = 1.0
+drag_top_margin = 0.6
+drag_bottom_margin = 0.1
 
 [node name="TileMap2" type="TileMap" parent="."]
 z_index = -5
